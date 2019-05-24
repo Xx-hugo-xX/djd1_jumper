@@ -65,14 +65,14 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isJumping", true);
         }
-        /*
+        
         if (rigidBody.velocity.y < 0)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
             Debug.Log("Still Falling");
         }
-        */
+        
     }
 
     private void OnDrawGizmos()
