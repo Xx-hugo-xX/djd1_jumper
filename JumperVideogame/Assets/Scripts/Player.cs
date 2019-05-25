@@ -14,6 +14,16 @@ public class Player : MonoBehaviour
     float hAxis;
 
 
+    bool isOnGround
+    {
+        get
+        {
+            Collider2D collider = Physics2D.OverlapCircle(transform.position, 2.0f, LayerMask.GetMask("Ground"));
+            return (collider);
+        }
+    }
+
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -65,14 +75,14 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isJumping", true);
         }
-        
+        /*
         if (rigidBody.velocity.y < 0)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
             Debug.Log("Still Falling");
         }
-        
+        */
     }
 
     private void OnDrawGizmos()
