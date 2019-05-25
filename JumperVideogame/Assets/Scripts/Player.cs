@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    // Variable Declaration
     public float moveSpeed = 50.0f;
     public float jumpSpeed = 250.0f;
 
+    [SerializeField] Collider2D groundCollider;
+    [SerializeField] Collider2D airCollider;
 
     Rigidbody2D rigidBody;
     Animator animator;
@@ -18,11 +20,11 @@ public class Player : MonoBehaviour
     {
         get
         {
-            Collider2D collider = Physics2D.OverlapCircle(transform.position, 2.0f, LayerMask.GetMask("Ground"));
-            return (collider);
+            Collider2D collider = Physics2D.OverlapCircle(transform.position
+                + new Vector3(1, -20, 0), 2.0f, LayerMask.GetMask("Ground"));
+            return collider;
         }
     }
-
 
     void Start()
     {
@@ -36,14 +38,25 @@ public class Player : MonoBehaviour
 
         currentVelocity = new Vector2(hAxis * moveSpeed, currentVelocity.y);
 
+        bool grounded = isOnGround;
+
+        // moves player on the vertical axis when the user presses Jump button and is on ground
         if (Input.GetButtonDown("Jump"))
         {
-            currentVelocity.y = jumpSpeed;
+            if (isOnGround)
+                currentVelocity.y = jumpSpeed;
         }
+
 
         rigidBody.velocity = currentVelocity;
 
+        // Defines which collider is utilized 
+        groundCollider.enabled = grounded;
+        airCollider.enabled = !grounded;
+
+
     }
+
 
     private void Update()
     {
@@ -52,7 +65,7 @@ public class Player : MonoBehaviour
 
         Vector2 currentVelocity = rigidBody.velocity;
 
-
+        // Start of Animation Updates
         if ((hAxis < 0.0f) && (transform.right.x > 0.0f))
         {
             transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
@@ -62,32 +75,33 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.identity;
         }
 
+            // Begins Walking animation when the player 
         if (Mathf.Abs(rigidBody.velocity.x) > 0 && rigidBody.velocity.y == 0)
         {
             animator.SetBool("isWalking", true);
         }
+            // Stops Walking animation when the player's X velocity is 0 (begins Idle animation)
         else
         {
             animator.SetBool("isWalking", false);
         }
-
-        if (rigidBody.velocity.y > 0)
+            // Sets animation to Jumping animation when the player jumps
+        if (!isOnGround && rigidBody.velocity.y > 0)
         {
             animator.SetBool("isJumping", true);
         }
-        /*
-        if (rigidBody.velocity.y < 0)
+            // Stops Jumping animation and begins Falling animation when the player begins to fall
+        if (!isOnGround && rigidBody.velocity.y < 0)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
-            Debug.Log("Still Falling");
         }
-        */
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 2.0f);
+            // Stops Jumping or Falling animation when player hits the ground
+        if (isOnGround)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
+        }
+        // End of Animation Updates
     }
 }
