@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
+    Rigidbody2D rigidBody;
+
+    void Start()
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+    }
     // Update is called once per frame
     void Update()
     {
