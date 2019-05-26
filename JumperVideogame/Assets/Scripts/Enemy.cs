@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float     moveSpeed = 75.0f;
+    [SerializeField] float     moveSpeed = 50.0f;
     [SerializeField] Transform groundCensor;
 
-    float moveDirection = - 1.0f;
+    float moveDirection = -1.0f;
 
     Rigidbody2D rigidBody;
 
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
         if (groundCensor)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(groundCensor.position, 2.0f);
+            Gizmos.DrawSphere(groundCensor.position, 0.5f);
         }
     }
 }
