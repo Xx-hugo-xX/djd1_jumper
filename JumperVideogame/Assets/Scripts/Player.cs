@@ -5,15 +5,22 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Variable Declaration
-    public float moveSpeed = 50.0f;
-    public float jumpSpeed = 250.0f;
 
-    [SerializeField] Collider2D groundCollider;
-    [SerializeField] Collider2D airCollider;
+    [SerializeField] public float moveSpeed = 50.0f;
+    [SerializeField] public float jumpSpeed = 250.0f;
+    [SerializeField] int          maxHP = 3;
+    [SerializeField] float        invulnerabilityDuration = 1.0f;
+    [SerializeField] Collider2D   groundCollider;
+    [SerializeField] Collider2D   airCollider;
+    [SerializeField] Transform    damageSensor;
 
-    Rigidbody2D rigidBody;
-    Animator animator;
-    float hAxis;
+
+    Rigidbody2D    rigidBody;
+    Animator       animator;
+    SpriteRenderer sprite;
+    float          hAxis;
+    int            currentHP;
+    float          invulnerabilityTimer;
 
 
     bool isOnGround
@@ -26,10 +33,35 @@ public class Player : MonoBehaviour
         }
     }
 
+    bool isInvulnerable
+    {
+        get
+        {
+            if (invulnerabilityTimer > 0.0f) return true;
+
+            return false;
+        }
+        set
+        {
+            if (value)
+            {
+                invulnerabilityTimer = invulnerabilityDuration;
+            }
+
+            else
+            {
+                invulnerabilityTimer = 0.0f;
+            }
+        }
+    }
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+
+        currentHP = maxHP;
     }
 
     void FixedUpdate()
@@ -54,7 +86,20 @@ public class Player : MonoBehaviour
         groundCollider.enabled = grounded;
         airCollider.enabled = !grounded;
 
+        Collider2D collider = Physics2D.OverlapCircle(damageSensor.position,
+            2.0f, LayerMask.GetMask("Enemy"));
 
+        if (collider != null)
+        {
+            Enemy enemy = collider.GetComponent<Enemy>();
+
+            if (enemy)
+            {
+                enemy.TakeDamage(1);
+
+                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
+            }
+        } 
     }
 
 
@@ -64,6 +109,19 @@ public class Player : MonoBehaviour
         hAxis = Input.GetAxis("Horizontal");
 
         Vector2 currentVelocity = rigidBody.velocity;
+
+        if (invulnerabilityTimer > 0.0f)
+        {
+            invulnerabilityTimer -= Time.deltaTime;
+
+            sprite.enabled = (Mathf.FloorToInt(invulnerabilityTimer * 10.0f)%2) == 0;
+
+            if (invulnerabilityTimer <= 0.0f)
+            {
+                sprite.enabled = true;
+            }
+        }
+
 
         // Start of Animation Updates
         if ((hAxis < 0.0f) && (transform.right.x > 0.0f))
@@ -75,33 +133,56 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.identity;
         }
 
-            // Begins Walking animation when the player 
+        // Begins Walking animation when the player 
         if (Mathf.Abs(rigidBody.velocity.x) > 0 && rigidBody.velocity.y == 0)
         {
             animator.SetBool("isWalking", true);
         }
-            // Stops Walking animation when the player's X velocity is 0 (begins Idle animation)
+        // Stops Walking animation when the player's X velocity is 0 (begins Idle animation)
         else
         {
             animator.SetBool("isWalking", false);
         }
-            // Sets animation to Jumping animation when the player jumps
+        // Sets animation to Jumping animation when the player jumps
         if (!isOnGround && rigidBody.velocity.y > 0)
         {
             animator.SetBool("isJumping", true);
         }
-            // Stops Jumping animation and begins Falling animation when the player begins to fall
+        // Stops Jumping animation and begins Falling animation when the player begins to fall
         if (!isOnGround && rigidBody.velocity.y < 0)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
         }
-            // Stops Jumping or Falling animation when player hits the ground
+        // Stops Jumping or Falling animation when player hits the ground
         if (isOnGround)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", false);
         }
         // End of Animation Updates
+    }
+
+    public void TakeDamage(int nDamage)
+    {
+        if (isInvulnerable) return;
+        currentHP = currentHP - nDamage;
+
+        if (currentHP <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        isInvulnerable = true;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (damageSensor)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(damageSensor.position, 1.0f);
+        }
+
     }
 }
