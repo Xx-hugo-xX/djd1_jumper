@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Player : MonoBehaviour
 {
@@ -12,15 +14,15 @@ public class Player : MonoBehaviour
     [SerializeField] float        invulnerabilityDuration = 1.0f;
     [SerializeField] Collider2D   groundCollider;
     [SerializeField] Collider2D   airCollider;
-    [SerializeField] Transform    damageSensor;
+    [SerializeField] Transform    damageSensor1;
+    [SerializeField] Transform    damageSensor2;
 
-
-    Rigidbody2D    rigidBody;
-    Animator       animator;
-    SpriteRenderer sprite;
-    float          hAxis;
-    int            currentHP;
-    float          invulnerabilityTimer;
+    Rigidbody2D     rigidBody;
+    Animator        animator;
+    SpriteRenderer  sprite;
+    float           hAxis;
+    int             currentHP;
+    float           invulnerabilityTimer;
 
 
     bool isOnGround
@@ -75,8 +77,7 @@ public class Player : MonoBehaviour
         // moves player on the vertical axis when the user presses Jump button and is on ground
         if (Input.GetButtonDown("Jump"))
         {
-            if (isOnGround)
-                currentVelocity.y = jumpSpeed;
+            if (isOnGround) currentVelocity.y = jumpSpeed;
         }
 
 
@@ -86,12 +87,28 @@ public class Player : MonoBehaviour
         groundCollider.enabled = grounded;
         airCollider.enabled = !grounded;
 
-        Collider2D collider = Physics2D.OverlapCircle(damageSensor.position,
+        Collider2D collider1 = Physics2D.OverlapCircle(damageSensor1.position,
             2.0f, LayerMask.GetMask("Enemy"));
 
-        if (collider != null)
+        Collider2D collider2 = Physics2D.OverlapCircle(damageSensor2.position,
+            2.0f, LayerMask.GetMask("Enemy"));
+
+
+
+        if (collider1 != null)
         {
-            Enemy enemy = collider.GetComponent<Enemy>();
+            Enemy enemy = collider1.GetComponent<Enemy>();
+
+            if (enemy)
+            {
+                enemy.TakeDamage(1);
+                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
+            }
+        }
+
+        else if (collider2 != null)
+        {
+            Enemy enemy = collider2.GetComponent<Enemy>();
 
             if (enemy)
             {
@@ -99,7 +116,15 @@ public class Player : MonoBehaviour
 
                 rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
             }
-        } 
+        }
+
+        Collider2D SpikeCollider = Physics2D.OverlapCircle(damageSensor2.position,
+            2.0f, LayerMask.GetMask("Spikes"));
+
+        if (SpikeCollider != null)
+        {
+            TakeDamage(3);
+        }
     }
 
 
@@ -171,18 +196,30 @@ public class Player : MonoBehaviour
         if (currentHP <= 0)
         {
             Destroy(gameObject);
+            RestartScene();
         }
 
         isInvulnerable = true;
     }
 
+    public void RestartScene()
+    {
+        Scene thisScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(thisScene.name);
+    }
+
     private void OnDrawGizmosSelected()
     {
-        if (damageSensor)
+        if (damageSensor1)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(damageSensor.position, 1.0f);
+            Gizmos.DrawSphere(damageSensor1.position, 1.0f);
         }
 
+        if (damageSensor2)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(damageSensor2.position, 1.0f);
+        }
     }
 }
