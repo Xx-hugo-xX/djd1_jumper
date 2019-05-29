@@ -8,14 +8,14 @@ public class Player : MonoBehaviour
 {
     // Variable Declaration
 
-    [SerializeField] public float moveSpeed = 50.0f;
-    [SerializeField] public float jumpSpeed = 250.0f;
-    [SerializeField] int          maxHP = 3;
-    [SerializeField] float        invulnerabilityDuration = 1.0f;
-    [SerializeField] Collider2D   groundCollider;
-    [SerializeField] Collider2D   airCollider;
-    [SerializeField] Transform    damageSensor1;
-    [SerializeField] Transform    damageSensor2;
+    [SerializeField] public float   moveSpeed = 50.0f;
+    [SerializeField] public float   jumpSpeed = 250.0f;
+    [SerializeField] int            maxHP = 3;
+    [SerializeField] float          invulnerabilityDuration = 1.0f;
+    [SerializeField] Collider2D     groundCollider;
+    [SerializeField] Collider2D     airCollider;
+    [SerializeField] Transform      damageSensor1;
+    [SerializeField] Transform      damageSensor2;
 
     Rigidbody2D     rigidBody;
     Animator        animator;
@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+
 
     void Start()
     {
