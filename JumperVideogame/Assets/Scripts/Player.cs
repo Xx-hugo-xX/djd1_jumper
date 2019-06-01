@@ -61,8 +61,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
+        animator  = GetComponent<Animator>();
+        sprite    = GetComponent<SpriteRenderer>();
 
         currentHP = maxHP;
     }
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
 
         // Defines which collider is utilized 
         groundCollider.enabled = grounded;
-        airCollider.enabled = !grounded;
+        airCollider.enabled    = !grounded;
 
         Collider2D collider1 = Physics2D.OverlapCircle(damageSensor1.position,
             2.0f, LayerMask.GetMask("Enemy"));

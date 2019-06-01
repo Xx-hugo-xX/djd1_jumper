@@ -4,31 +4,22 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    [SerializeField] Transform teleportIndicatorT;
     [SerializeField] SpriteRenderer teleportIndicatorSR;
+    [SerializeField] Transform      teleportIndicatorT;
+
+    [SerializeField] float maxDistance = 110.0f;
 
 
-    Rigidbody2D rigidBody;
-    bool canTeleport;
-
-    Vector3 wantedPosition;
+    new Transform   transform;
+    Vector3     wantedPosition;
 
 
-    bool isTeleportPossible
-    {
-        get
-        {
-            return canTeleport;
-        }
-        set
-        {
-            canTeleport = value;
-        }
-    }
+    private bool isTeleportPossible { get; set; }
+    private bool isInsideTilemap { get; set; }
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        transform = GetComponent<Transform>();
         teleportIndicatorSR.enabled = false;
     }
     // Update is called once per frame
@@ -39,26 +30,27 @@ public class Teleport : MonoBehaviour
                         (Input.mousePosition).x, Camera.main.ScreenToWorldPoint
                         (Input.mousePosition).y, transform.position.z);
 
+        teleportIndicatorT.transform.position = wantedPosition;
+
+
+        isTeleportPossible =  CheckTeleport();
+
+
         // Activate teleport when Right Mouse Button is being pressed
         if (Input.GetMouseButton(1))
         {
-            teleportIndicatorT.transform.position = wantedPosition;
-            teleportIndicatorSR.enabled = true;
+            //Debug.Log(Vector2.Distance(wantedPosition, transform.position));
 
-            if (Input.GetButtonDown("Teleport"))
-            {
-                if (isTeleportPossible) canTeleport = false;
-                else canTeleport = true;
-            }
+            teleportIndicatorSR.enabled = true;
 
 
             if (isTeleportPossible)
             {
-                Debug.Log("TELEPORT IS POSSIBLE");
+                teleportIndicatorSR.color = new Color(0.0f, 103.0f, 255.0f, 1.0f);
+
                 //Teleport to position when Left Mouse Button is released
                 if (Input.GetMouseButtonUp(0))
                 {
-                    teleportIndicatorSR.color = new Color(0.0f, 103.0f, 255.0f, 1.0f);
 
                     // Set new player position as the wantedPosition
                     transform.position = wantedPosition;
@@ -66,8 +58,6 @@ public class Teleport : MonoBehaviour
             }
             else
             {
-                Debug.Log("teleport is not possible");
-
                 teleportIndicatorSR.color = new Color(154.0f, 0.0f, 0.0f, 1.0f);
             }
 
@@ -77,13 +67,40 @@ public class Teleport : MonoBehaviour
             teleportIndicatorSR.enabled = false;
         }
     }
-    /*
-    public void OnCollisionEnter2D(Collision2D collision)
+
+
+    // When the wanted position collides with an object, if the object is a tilemap ("Tilemap" tag), sets isInsideTilemap to true
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collider.tag == "Tilemap")
         {
-            Destroy(collision.gameObject);
+            isInsideTilemap = true;
+        }
+        else isInsideTilemap = false;
+    }
+    
+    // When the wanted position stops colliding with an object, if the object is a tilemap ("Tilemap" tag), sets isInsideTilemap to false
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.tag == "Tilemap")
+        {
+            isInsideTilemap = false;
         }
     }
-    */
+    
+
+    public bool CheckTeleport()
+    {
+        // Returns false if the teleport distance is greater than the allowed distance
+        if (Vector2.Distance(wantedPosition, transform.position)
+            > maxDistance) return false;
+
+
+        // Returns false if wanted position is inside the Tilemap
+        else if (isInsideTilemap) return false;
+
+        // Returns true if it none of the restrictions apply
+        else return true;
+    }
+
 }
