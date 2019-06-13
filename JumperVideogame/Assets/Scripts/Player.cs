@@ -189,6 +189,15 @@ public class Player : MonoBehaviour
         // End of Animation Updates
     }
 
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "MedKit")
+        {
+            currentHP = 3;
+            Destroy(collider.gameObject);
+        }
+    }
+
     public void TakeDamage(int nDamage)
     {
         if (isInvulnerable) return;
@@ -208,6 +217,7 @@ public class Player : MonoBehaviour
         Scene thisScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(thisScene.name);
     }
+
 
     private void OnDrawGizmosSelected()
     {
