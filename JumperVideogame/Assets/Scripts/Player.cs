@@ -193,8 +193,11 @@ public class Player : MonoBehaviour
     {
         if (collider.tag == "MedKit")
         {
-            currentHP = 3;
-            Destroy(collider.gameObject);
+            if (currentHP != 3)
+            {
+                currentHP = 3;
+                Destroy(collider.gameObject);
+            }
         }
 
         if (collider.tag == "Victory") RestartScene();

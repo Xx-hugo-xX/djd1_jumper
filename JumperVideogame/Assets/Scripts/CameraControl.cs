@@ -11,6 +11,7 @@ public class CameraControl : MonoBehaviour
     public Vector3   offset;
     public float     cameraSpeed = 0.1f;
     public bool      enforceBounds;
+    public bool      onlyXaxis;
     public Rect      bounds;
     new    Camera    camera;
 
@@ -51,8 +52,12 @@ public class CameraControl : MonoBehaviour
         }
 
         newPosition.z = transform.position.z;
-
-        transform.position = newPosition;
+        if (onlyXaxis)
+        {
+            newPosition.y = transform.position.y;
+            transform.position = newPosition;
+        }
+        else transform.position = newPosition;
     }
 
     private void OnDrawGizmosSelected()
