@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] Collider2D     airCollider;
     [SerializeField] Transform      damageSensor1;
     [SerializeField] Transform      damageSensor2;
+    [SerializeField] LevelManager   levelManager;
+
 
     Rigidbody2D     rigidBody;
     Animator        animator;
@@ -191,8 +193,9 @@ public class Player : MonoBehaviour
                 Destroy(collider.gameObject);
             }
         }
+        if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
 
-        if (collider.tag == "Victory") RestartScene();
+        if (collider.tag == "Victory") levelManager.RestartScene();
     }
 
     public void TakeDamage(int nDamage)
@@ -203,16 +206,10 @@ public class Player : MonoBehaviour
         if (currentHP <= 0)
         {
             Destroy(gameObject);
-            RestartScene();
+            levelManager.RestartScene();
         }
 
         isInvulnerable = true;
-    }
-
-    public void RestartScene()
-    {
-        Scene thisScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(thisScene.name);
     }
 
 

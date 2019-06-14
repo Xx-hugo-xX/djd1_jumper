@@ -8,4 +8,28 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 9dc5cbf90e2111b47b603aea9dab13d1
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: b731db753bf867d41acb508420c62916
+  - enabled: 1
+    path: Assets/Scenes/CityScene.unity
+    guid: 9fa31e3bb242a7e42be8747b671252d0
+  - enabled: 1
+    path: Assets/Scenes/UndergroundScene.unity
+    guid: 9b2390791b4b7584786704a1dabc962e
+  - enabled: 1
+    path: Assets/Scenes/PauseMenu.unity
+    guid: e16c6118a2ca432419ae35ff39e0e537
+  - enabled: 1
+    path: Assets/Scenes/OptionsMenu.unity
+    guid: 4ba6e044ae324854f9a72c99ef78287d
+  - enabled: 1
+    path: Assets/Scenes/SoundMenu.unity
+    guid: 13dcc3b74a1f48f4182a087a150c2eba
+  - enabled: 1
+    path: Assets/Scenes/ControlsMenu.unity
+    guid: 6da80a3d315c73945aceef144ae6c30c
   m_configObjects: {}

@@ -9,6 +9,7 @@ TagManager:
   - MedKit
   - Victory
   - TeleportIndicator
+  - SubwayEntry
   layers:
   - Default
   - TransparentFX
