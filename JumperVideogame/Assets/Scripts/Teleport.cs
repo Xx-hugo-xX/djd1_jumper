@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Teleport : MonoBehaviour
 {
@@ -25,45 +26,49 @@ public class Teleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Set wantedPosition as the mouse position
-        wantedPosition = new Vector3(Camera.main.ScreenToWorldPoint
-                        (Input.mousePosition).x, Camera.main.ScreenToWorldPoint
-                        (Input.mousePosition).y, transform.position.z);
-
-        teleportIndicatorT.transform.position = wantedPosition;
-
-
-        isTeleportPossible =  CheckTeleport();
-
-
-        // Activate teleport when Right Mouse Button is being pressed
-        if (Input.GetMouseButton(1))
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name != "CityScene")
         {
-            //Debug.Log(Vector2.Distance(wantedPosition, transform.position));
+            // Set wantedPosition as the mouse position
+            wantedPosition = new Vector3(Camera.main.ScreenToWorldPoint
+                                (Input.mousePosition).x, Camera.main.ScreenToWorldPoint
+                                (Input.mousePosition).y, transform.position.z);
 
-            teleportIndicatorSR.enabled = true;
+            teleportIndicatorT.transform.position = wantedPosition;
 
 
-            if (isTeleportPossible)
+            isTeleportPossible = CheckTeleport();
+
+
+            // Activate teleport when Right Mouse Button is being pressed
+            if (Input.GetMouseButton(1))
             {
-                teleportIndicatorSR.color = new Color(0.0f, 103.0f, 255.0f, 1.0f);
+                //Debug.Log(Vector2.Distance(wantedPosition, transform.position));
 
-                //Teleport to position when Left Mouse Button is released
-                if (Input.GetMouseButtonUp(0))
+                teleportIndicatorSR.enabled = true;
+
+
+                if (isTeleportPossible)
                 {
-                    // Set new player position as the wantedPosition
-                    transform.position = wantedPosition;
+                    teleportIndicatorSR.color = new Color(0.0f, 103.0f, 255.0f, 1.0f);
+
+                    //Teleport to position when Left Mouse Button is released
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        // Set new player position as the wantedPosition
+                        transform.position = wantedPosition;
+                    }
                 }
+                else
+                {
+                    teleportIndicatorSR.color = new Color(154.0f, 0.0f, 0.0f, 1.0f);
+                }
+
             }
             else
             {
-                teleportIndicatorSR.color = new Color(154.0f, 0.0f, 0.0f, 1.0f);
+                teleportIndicatorSR.enabled = false;
             }
-
-        }
-        else
-        {
-            teleportIndicatorSR.enabled = false;
         }
     }
 

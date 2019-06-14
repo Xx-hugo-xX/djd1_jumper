@@ -40,6 +40,13 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("UndergroundScene");
     }
 
+
+    public void RestartScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
     public void Quit()
     {
         Application.Quit();
