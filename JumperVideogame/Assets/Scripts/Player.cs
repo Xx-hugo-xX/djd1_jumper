@@ -118,14 +118,6 @@ public class Player : MonoBehaviour
                 rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
             }
         }
-
-        Collider2D SpikeCollider = Physics2D.OverlapCircle(damageSensor2.position,
-            2.0f, LayerMask.GetMask("Spikes"));
-
-        if (SpikeCollider != null)
-        {
-            TakeDamage(3);
-        }
     }
 
 
