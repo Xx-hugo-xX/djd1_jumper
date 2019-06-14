@@ -51,7 +51,6 @@ public class Teleport : MonoBehaviour
                 //Teleport to position when Left Mouse Button is released
                 if (Input.GetMouseButtonUp(0))
                 {
-
                     // Set new player position as the wantedPosition
                     transform.position = wantedPosition;
                 }

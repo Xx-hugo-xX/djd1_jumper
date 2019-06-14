@@ -196,6 +196,8 @@ public class Player : MonoBehaviour
             currentHP = 3;
             Destroy(collider.gameObject);
         }
+
+        if (collider.tag == "Victory") RestartScene();
     }
 
     public void TakeDamage(int nDamage)
