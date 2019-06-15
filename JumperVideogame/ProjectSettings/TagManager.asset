@@ -10,6 +10,18 @@ TagManager:
   - Victory
   - TeleportIndicator
   - SubwayEntry
+  - SubwayEntryCollider
+  - SubwayStation1Collider
+  - ElevatorCollider
+  - SubwayStation2Collider
+  - LairPathCollider
+  - LairFloor1Collider
+  - LairFloor2Collider
+  - FinalRoomCollider
+  - SubwayStairsCollider
+  - LairFallCollider
+  - StairCheck1
+  - StairCheck2
   layers:
   - Default
   - TransparentFX
@@ -25,8 +37,8 @@ TagManager:
   - TeleportIndicator
   - Enemy
   - Spikes
-  - 
-  - 
+  - Elevator
+  - GameElements
   - 
   - 
   - 

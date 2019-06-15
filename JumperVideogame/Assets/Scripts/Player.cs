@@ -13,9 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] int            maxHP = 3;
     [SerializeField] float          invulnerabilityDuration = 1.0f;
     [SerializeField] Collider2D     groundCollider;
-    [SerializeField] Collider2D     airCollider;
-    [SerializeField] Transform      damageSensor1;
-    [SerializeField] Transform      damageSensor2;
+    [SerializeField] Transform      groundSensor;
+    [SerializeField] Transform      wallSensor;
+    [SerializeField] Transform      damageSensor;
     [SerializeField] LevelManager   levelManager;
 
 
@@ -31,8 +31,16 @@ public class Player : MonoBehaviour
     {
         get
         {
-            Collider2D collider = Physics2D.OverlapCircle(transform.position
-                + new Vector3(1, -20, 0), 2.0f, LayerMask.GetMask("Ground"));
+            Collider2D collider = Physics2D.OverlapCircle(groundSensor.position, 2.0f, LayerMask.GetMask("Ground"));
+            return collider;
+        }
+    }
+
+    bool isAgainstWall
+    {
+        get
+        {
+            Collider2D collider = Physics2D.OverlapCircle(wallSensor.position, 2.0f, LayerMask.GetMask("Ground"));
             return collider;
         }
     }
@@ -42,20 +50,12 @@ public class Player : MonoBehaviour
         get
         {
             if (invulnerabilityTimer > 0.0f) return true;
-
             return false;
         }
         set
         {
-            if (value)
-            {
-                invulnerabilityTimer = invulnerabilityDuration;
-            }
-
-            else
-            {
-                invulnerabilityTimer = 0.0f;
-            }
+            if (value) invulnerabilityTimer = invulnerabilityDuration;
+            else invulnerabilityTimer = 0.0f;
         }
     }
 
@@ -88,14 +88,9 @@ public class Player : MonoBehaviour
 
         // Defines which collider is utilized 
         groundCollider.enabled = grounded;
-        airCollider.enabled    = !grounded;
 
-        Collider2D collider1 = Physics2D.OverlapCircle(damageSensor1.position,
+        Collider2D collider1 = Physics2D.OverlapCircle(damageSensor.position,
             2.0f, LayerMask.GetMask("Enemy"));
-
-        Collider2D collider2 = Physics2D.OverlapCircle(damageSensor2.position,
-            2.0f, LayerMask.GetMask("Enemy"));
-
 
 
         if (collider1 != null)
@@ -105,18 +100,6 @@ public class Player : MonoBehaviour
             if (enemy)
             {
                 enemy.TakeDamage(1);
-                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
-            }
-        }
-
-        else if (collider2 != null)
-        {
-            Enemy enemy = collider2.GetComponent<Enemy>();
-
-            if (enemy)
-            {
-                enemy.TakeDamage(1);
-
                 rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
             }
         }
@@ -156,7 +139,7 @@ public class Player : MonoBehaviour
         // Begins Walking animation when the player 
         if (Mathf.Abs(rigidBody.velocity.x) > 0 && rigidBody.velocity.y == 0)
         {
-            animator.SetBool("isWalking", true);
+            if (!isAgainstWall) animator.SetBool("isWalking", true);
         }
         // Stops Walking animation when the player's X velocity is 0 (begins Idle animation)
         else
@@ -193,7 +176,10 @@ public class Player : MonoBehaviour
                 Destroy(collider.gameObject);
             }
         }
-        if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
+        if (collider.tag == "SubwayEntry")
+        {
+            levelManager.UndergroundScene();
+        }
 
         if (collider.tag == "Victory") levelManager.RestartScene();
     }
@@ -212,19 +198,18 @@ public class Player : MonoBehaviour
         isInvulnerable = true;
     }
 
-
     private void OnDrawGizmosSelected()
     {
-        if (damageSensor1)
+        if (damageSensor)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(damageSensor1.position, 1.0f);
+            Gizmos.DrawSphere(damageSensor.position, 1.0f);
         }
 
-        if (damageSensor2)
+        if (groundSensor)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(damageSensor2.position, 1.0f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(groundSensor.position, 2.0f);
         }
     }
 }
