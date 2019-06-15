@@ -13,9 +13,15 @@ public class Player : MonoBehaviour
     [SerializeField] int            maxHP = 3;
     [SerializeField] float          invulnerabilityDuration = 1.0f;
     [SerializeField] Collider2D     groundCollider;
+<<<<<<< HEAD
     [SerializeField] Transform      groundSensor;
     [SerializeField] Transform      wallSensor;
     [SerializeField] Transform      damageSensor;
+=======
+    [SerializeField] Collider2D     airCollider;
+    [SerializeField] Transform      damageSensor1;
+    [SerializeField] Transform      damageSensor2;
+>>>>>>> pedroRepo/master
     [SerializeField] LevelManager   levelManager;
 
 
@@ -103,6 +109,21 @@ public class Player : MonoBehaviour
                 rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
             }
         }
+<<<<<<< HEAD
+=======
+
+        else if (collider2 != null)
+        {
+            Enemy enemy = collider2.GetComponent<Enemy>();
+
+            if (enemy)
+            {
+                enemy.TakeDamage(1);
+
+                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
+            }
+        }
+>>>>>>> pedroRepo/master
     }
 
 
@@ -170,17 +191,24 @@ public class Player : MonoBehaviour
     {
         if (collider.tag == "MedKit")
         {
+<<<<<<< HEAD
             Debug.Log("Touched Medkit");
+=======
+>>>>>>> pedroRepo/master
             if (currentHP != 3)
             {
                 currentHP = 3;
                 Destroy(collider.gameObject);
             }
+<<<<<<< HEAD
         }
         if (collider.tag == "SubwayEntry")
         {
             levelManager.UndergroundScene();
+=======
+>>>>>>> pedroRepo/master
         }
+        if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
 
         if (collider.tag == "Victory") levelManager.RestartScene();
     }
@@ -199,6 +227,10 @@ public class Player : MonoBehaviour
         isInvulnerable = true;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> pedroRepo/master
     private void OnDrawGizmosSelected()
     {
         if (damageSensor)
