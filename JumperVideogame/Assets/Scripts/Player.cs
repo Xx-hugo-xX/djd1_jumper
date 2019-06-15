@@ -170,6 +170,7 @@ public class Player : MonoBehaviour
     {
         if (collider.tag == "MedKit")
         {
+            Debug.Log("Touched Medkit");
             if (currentHP != 3)
             {
                 currentHP = 3;

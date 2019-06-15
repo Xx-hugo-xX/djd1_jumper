@@ -18,8 +18,10 @@ public class CamerasManager : MonoBehaviour
     [SerializeField] Camera     lairFloor2Camera;
     [SerializeField] Camera     finalRoomCamera;
 
-    [SerializeField] TilemapCollider2D stairs1;
-    [SerializeField] TilemapCollider2D stairs2;
+    [SerializeField] TilemapCollider2D stairs1TMC;
+    [SerializeField] TilemapCollider2D stairs2TMC;
+    [SerializeField] Tilemap stairs1TM;
+    [SerializeField] Tilemap stairs2TM;
 
     List<Camera> cameraList = new List<Camera>();
 
@@ -43,13 +45,17 @@ public class CamerasManager : MonoBehaviour
     {
         if (lastStairCheck == 1)
         {
-            stairs1.enabled = true;
-            stairs2.enabled = false;
+            stairs1TMC.enabled = true;
+            stairs2TMC.enabled = false;
+            stairs1TM.color = Color.white;
+            stairs2TM.color = Color.gray;
         }
         else
         {
-            stairs1.enabled = false;
-            stairs2.enabled = true;
+            stairs1TMC.enabled = false;
+            stairs2TMC.enabled = true;
+            stairs1TM.color = Color.gray;
+            stairs2TM.color = Color.white;
         }
     }
 
