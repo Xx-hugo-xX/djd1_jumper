@@ -12,6 +12,7 @@ public class CameraControl : MonoBehaviour
     public float     cameraSpeed = 0.1f;
     public bool      enforceBounds;
     public bool      onlyXaxis;
+    public bool      onlyYaxis;
     public Rect      bounds;
     new    Camera    camera;
 
@@ -57,6 +58,12 @@ public class CameraControl : MonoBehaviour
             newPosition.y = transform.position.y;
             transform.position = newPosition;
         }
+        else if(onlyYaxis)
+        {
+            newPosition.x = transform.position.x;
+            transform.position = newPosition;
+        }
+
         else transform.position = newPosition;
     }
 
