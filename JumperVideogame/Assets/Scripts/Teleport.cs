@@ -40,7 +40,7 @@ public class Teleport : MonoBehaviour
     void Update()
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name != "")
+        if (currentScene.name != "CityScene")
         {
             // Set wantedPosition as the mouse position
             wantedPosition = new Vector3(Camera.main.ScreenToWorldPoint
