@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
         }
         if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
 
-        if (collider.tag == "Victory") levelManager.RestartScene();
+        if (collider.tag == "Victory") levelManager.WinScreen();
 
         if (collider.tag == "Elevator_1")
         {
