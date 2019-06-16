@@ -33,21 +33,6 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void OptionsMenu()
-    {
-        SceneManager.LoadScene("OptionsMenu");
-    }
-
-    public void SoundMenu()
-    {
-        SceneManager.LoadScene("SoundMenu");
-    }
-
-    public void ControlsMenu()
-    {
-        SceneManager.LoadScene("ControlsMenu");
-    }
-
     public void CityScene()
     {
         SceneManager.LoadScene("CityScene");

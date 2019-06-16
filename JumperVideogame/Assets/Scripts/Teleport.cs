@@ -16,6 +16,7 @@ public class Teleport : MonoBehaviour
     Vector3     wantedPosition;
 
     Rigidbody2D rigidBody;
+    Player player;
 
     Vector2 currentVelocity;
 
@@ -24,6 +25,7 @@ public class Teleport : MonoBehaviour
 
     void Start()
     {
+        player = GetComponent<Player>();
         transform = GetComponent<Transform>();
         teleportIndicatorSR.enabled = false;
         rigidBody = GetComponent<Rigidbody2D>();
@@ -69,6 +71,7 @@ public class Teleport : MonoBehaviour
                         // Set new player position as the wantedPosition
                         currentVelocity.y = 0;
                         transform.position = wantedPosition;
+                        player.teleportsAvailable -= 1;
                     }
                 }
                 else
@@ -114,6 +117,8 @@ public class Teleport : MonoBehaviour
 
         // Returns false if wanted position is inside the Tilemap
         else if (isInsideTilemap) return false;
+
+        else if (player.teleportsAvailable <= 0) return false;
 
         // Returns true if it none of the restrictions apply
         else return true;

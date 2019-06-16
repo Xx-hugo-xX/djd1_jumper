@@ -20,19 +20,33 @@ public class Player : MonoBehaviour
     [SerializeField] LevelManager   levelManager;
 
 
+    [SerializeField] Transform      startPosition;
+    [SerializeField] Transform      checkpoint_1;
+    [SerializeField] Transform      checkpoint_2;
+    [SerializeField] Transform      checkpoint_3;
 
+
+    [SerializeField] float teleportCooldown = 3.0f;
+
+
+    Transform respawnPoint;
+    
     Rigidbody2D     rigidBody;
     Animator        animator;
     SpriteRenderer  sprite;
     float           hAxis;
-    int             currentHP;
+    public int             currentHP;
+    public int             teleportsAvailable = 2;
     float           invulnerabilityTimer;
 
+
+    float playerDeathWait = 2.0f;
 
     bool isWalking;
     bool isFalling;
 
-
+    float teleportTimer;
+    bool isTeleportCharging;
 
     bool isOnGround
     {
@@ -74,6 +88,10 @@ public class Player : MonoBehaviour
         sprite    = GetComponent<SpriteRenderer>();
 
         currentHP = maxHP;
+        transform.position = startPosition.position;
+
+        teleportTimer = 0.0f;
+        isTeleportCharging = false;
     }
 
     void FixedUpdate()
@@ -133,9 +151,31 @@ public class Player : MonoBehaviour
         animator.SetBool("isFalling", isFalling);
         animator.SetFloat("ySpeed", rigidBody.velocity.y);
 
-        Debug.Log("Ground: " + isOnGround);
-        Debug.Log("Walking: " + isWalking);
-        Debug.Log("Falling: " + isFalling);
+        if(teleportsAvailable < 2 && !isTeleportCharging)
+        {
+            isTeleportCharging = true;
+            teleportTimer = teleportCooldown;
+        }
+
+        if (isTeleportCharging)
+        {
+            if (teleportTimer > 0.0f) teleportTimer -= Time.deltaTime;
+            else
+            {
+                isTeleportCharging = false;
+                teleportsAvailable += 1;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -160,22 +200,31 @@ public class Player : MonoBehaviour
         if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
 
         if (collider.tag == "Victory") levelManager.RestartScene();
+
+        if (collider.tag == "Checkpoint_1") respawnPoint = checkpoint_1;
+
+        if (collider.tag == "Checkpoint_2") respawnPoint = checkpoint_2;
+
+        if (collider.tag == "Checkpoint_3") respawnPoint = checkpoint_3;
     }
 
     public void TakeDamage(int nDamage)
     {
         if (isInvulnerable) return;
         currentHP = currentHP - nDamage;
+        isInvulnerable = true;
 
         if (currentHP <= 0)
         {
-            Destroy(gameObject);
-            levelManager.RestartScene();
+            transform.position = respawnPoint.position;
+            currentHP = maxHP;
         }
-
-        isInvulnerable = true;
     }
 
+    IEnumerator WaitTime(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+    }
 
     private void OnDrawGizmosSelected()
     {
