@@ -17,7 +17,6 @@ public class LevelManager : MonoBehaviour
                 MainMenu();
             }
         }
-
     }
 
 
@@ -43,6 +42,10 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("UndergroundScene");
     }
 
+    public void WinScreen()
+    {
+        SceneManager.LoadScene("WinScreen");
+    }
 
     public void RestartScene()
     {
