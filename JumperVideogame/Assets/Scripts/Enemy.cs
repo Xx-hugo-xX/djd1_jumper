@@ -9,8 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform  groundSensor;
     [SerializeField] Transform  wallSensor;
     [SerializeField] Collider2D damageSensor;
-    [SerializeField] Collider2D takeDamageSensor;
-    [SerializeField] Collider2D playerCollider;
+
 
     float moveDirection = -1.0f;
     int   currentHP;
@@ -78,10 +77,7 @@ public class Enemy : MonoBehaviour
         }
 
 
-        if (takeDamageSensor.IsTouching(playerCollider))
-        {
-            // Do something;
-        }
+
 
 
     }

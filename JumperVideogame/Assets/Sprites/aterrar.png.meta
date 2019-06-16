@@ -1,15 +1,11 @@
 fileFormatVersion: 2
-guid: ea5465ae6416e7942bfaecb624246489
+guid: cc78802120b452145aadb2cfba4e743f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Kanna_Run_Spritesheet_0
-    21300002: Kanna_Run_Spritesheet_1
-    21300004: Kanna_Run_Spritesheet_2
-    21300006: Kanna_Run_Spritesheet_3
-    21300008: Kanna_Run_Spritesheet_4
-    21300010: Kanna_Run_Spritesheet_5
-    21300012: Kanna_Run_Spritesheet_6
-    21300014: Kanna_Run_Spritesheet_7
+    21300000: aterrar_0
+    21300002: aterrar_1
+    21300004: aterrar_2
+    21300006: aterrar_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -92,13 +88,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_0
+      name: aterrar_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 80
-        height: 64
+        width: 64
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,19 +102,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cef8bdfebdf5dbb4fb3cb0269c705795
+      spriteID: c84e18565488c094dacc6e60bc49b4ed
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_1
+      name: aterrar_1
       rect:
         serializedVersion: 2
-        x: 80
+        x: 64
         y: 0
-        width: 80
-        height: 64
+        width: 64
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -126,19 +122,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 202a56fd55a34d44e89b99b60adef8bd
+      spriteID: 639d593db1697c24cafb667846b6dbe2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_2
+      name: aterrar_2
       rect:
         serializedVersion: 2
-        x: 160
+        x: 128
         y: 0
-        width: 80
-        height: 64
+        width: 64
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,19 +142,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa38a59c041e9894a88a0d458e744243
+      spriteID: 783c668d8afc3554ab98096fe0aa0b1c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_3
+      name: aterrar_3
       rect:
         serializedVersion: 2
-        x: 240
+        x: 192
         y: 0
-        width: 80
-        height: 64
+        width: 64
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,87 +162,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 314c14ea2a66a634f8e3419ad0301b03
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_4
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 80
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b4d3a248d443e2c4ea8e60750811f456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_5
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 0
-        width: 80
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fc4a3ba8434b1104e81074c6bfdb205f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_6
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 0
-        width: 80
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 93f00c9dc5b102047b53a3d23276ba5f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Kanna_Run_Spritesheet_7
-      rect:
-        serializedVersion: 2
-        x: 560
-        y: 0
-        width: 80
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 89a6895b629658a44a617f9aac4cae03
+      spriteID: fa5ce01137fc7614e990656ad67657be
       vertices: []
       indices: 
       edges: []
@@ -254,7 +170,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: f1722dd8d2d471a41bcb814ba38da4be
+    spriteID: 6aaf1b78ce0f90e4aa97ab5ed80a34f3
     vertices: []
     indices: 
     edges: []

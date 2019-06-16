@@ -7,6 +7,7 @@ public class Teleport : MonoBehaviour
 {
     [SerializeField] SpriteRenderer teleportIndicatorSR;
     [SerializeField] Transform      teleportIndicatorT;
+    [SerializeField] Collider2D     teleportIndicatorC;
 
     [SerializeField] float maxDistance = 110.0f;
 
@@ -14,6 +15,9 @@ public class Teleport : MonoBehaviour
     new Transform   transform;
     Vector3     wantedPosition;
 
+    Rigidbody2D rigidBody;
+
+    Vector2 currentVelocity;
 
     private bool isTeleportPossible { get; set; }
     private bool isInsideTilemap { get; set; }
@@ -22,12 +26,19 @@ public class Teleport : MonoBehaviour
     {
         transform = GetComponent<Transform>();
         teleportIndicatorSR.enabled = false;
+        rigidBody = GetComponent<Rigidbody2D>();
     }
-    // Update is called once per frame
+
+    void FixedUpdate()
+    {
+        currentVelocity = rigidBody.velocity;
+        rigidBody.velocity = currentVelocity;
+    }
+
     void Update()
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name != "CityScene")
+        if (currentScene.name != "")
         {
             // Set wantedPosition as the mouse position
             wantedPosition = new Vector3(Camera.main.ScreenToWorldPoint
@@ -56,6 +67,7 @@ public class Teleport : MonoBehaviour
                     if (Input.GetMouseButtonUp(0))
                     {
                         // Set new player position as the wantedPosition
+                        currentVelocity.y = 0;
                         transform.position = wantedPosition;
                     }
                 }

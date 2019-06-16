@@ -20,10 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField] LevelManager   levelManager;
 
 
-    [SerializeField] Collider2D enemyDamageSensor;
-    [SerializeField] Collider2D playerCollider;
-    [SerializeField] Collider2D attackTrigger;
-
 
     Rigidbody2D     rigidBody;
     Animator        animator;
@@ -32,10 +28,10 @@ public class Player : MonoBehaviour
     int             currentHP;
     float           invulnerabilityTimer;
 
-    bool isAttacking;
-    float attackTimer;
-    float attackCooldown = 0.5f;
-   
+
+    bool isWalking;
+    bool isFalling;
+
 
 
     bool isOnGround
@@ -78,8 +74,6 @@ public class Player : MonoBehaviour
         sprite    = GetComponent<SpriteRenderer>();
 
         currentHP = maxHP;
-
-        attackTrigger.enabled = false;
     }
 
     void FixedUpdate()
@@ -93,22 +87,7 @@ public class Player : MonoBehaviour
 
         rigidBody.velocity = currentVelocity;
 
-        // Defines which collider is utilized 
         groundCollider.enabled = grounded;
-
-        Collider2D collider = Physics2D.OverlapCircle(damageSensor.position,
-            2.0f, LayerMask.GetMask("Enemy"));
-
-
-        if (collider != null)
-        {
-            Enemy enemy = collider.GetComponent<Enemy>();
-
-            if (enemy)
-            {
-                enemy.TakeDamage(1);
-            }
-        }
     }
 
 
@@ -132,46 +111,6 @@ public class Player : MonoBehaviour
         }
 
 
-        if(Input.GetKeyDown("f") && !isAttacking)
-        {
-            isAttacking = true;
-            attackTimer = attackCooldown;
-
-            attackTrigger.enabled = true;
-        }
-
-        if (isAttacking)
-        {
-            if (attackTimer > 0.0f)
-            {
-                attackTimer -= Time.deltaTime;
-            }
-            else
-            {
-                isAttacking = false;
-                attackTrigger.enabled = false;
-            }
-        }
-
-        /*
-        if (enemyDamageSensor.IsTouching(playerCollider))
-        {
-
-        }
-        */
-
-
-
-
-
-
-
-
-
-
-
-
-
         // Start of Animation Updates
         if ((hAxis < 0.0f) && (transform.right.x > 0.0f))
         {
@@ -182,34 +121,23 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.identity;
         }
 
-        // Begins Walking animation when the player 
-        if (Mathf.Abs(rigidBody.velocity.x) > 0 && rigidBody.velocity.y == 0)
-        {
-            if (!isAgainstWall) animator.SetBool("isWalking", true);
-        }
-        // Stops Walking animation when the player's X velocity is 0 (begins Idle animation)
-        else
-        {
-            animator.SetBool("isWalking", false);
-        }
-        // Sets animation to Jumping animation when the player jumps
-        if (!isOnGround && rigidBody.velocity.y > 0)
-        {
-            animator.SetBool("isJumping", true);
-        }
-        // Stops Jumping animation and begins Falling animation when the player begins to fall
-        if (!isOnGround && rigidBody.velocity.y < 0)
-        {
-            animator.SetBool("isJumping", false);
-            animator.SetBool("isFalling", true);
-        }
-        // Stops Jumping or Falling animation when player hits the ground
-        if (isOnGround)
-        {
-            animator.SetBool("isJumping", false);
-            animator.SetBool("isFalling", false);
-        }
-        // End of Animation Updates
+
+        if (Mathf.Abs(rigidBody.velocity.x) > 0 && rigidBody.velocity.y == 0) isWalking = true;
+        else isWalking = false;
+
+
+        if (!isOnGround && rigidBody.velocity.y < 0) isFalling = true;
+        else if(isOnGround) isFalling = false;
+
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isFalling", isFalling);
+        animator.SetFloat("ySpeed", rigidBody.velocity.y);
+
+        Debug.Log("Ground: " + isOnGround);
+        Debug.Log("Walking: " + isWalking);
+        Debug.Log("Falling: " + isFalling);
+
+
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

@@ -18,6 +18,7 @@ TagManager:
   - LairFloor2Collider
   - FinalRoomCollider
   - LairFallCollider
+  - Enemy
   layers:
   - Default
   - TransparentFX
