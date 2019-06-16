@@ -10,9 +10,7 @@ public class CamerasManager : MonoBehaviour
     [SerializeField] Camera     subwayEntryCamera;
     [SerializeField] Camera     subwayStation1Camera;
     [SerializeField] Camera     subwayStation2Camera;
-    [SerializeField] Camera     lairPathCamera;
     [SerializeField] Camera     lairFloor1Camera;
-    [SerializeField] Camera     lairFallCamera;
     [SerializeField] Camera     lairFloor2Camera;
     [SerializeField] Camera     finalRoomCamera;
 
@@ -23,9 +21,7 @@ public class CamerasManager : MonoBehaviour
         cameraList.Add(subwayEntryCamera);
         cameraList.Add(subwayStation1Camera);
         cameraList.Add(subwayStation2Camera);
-        cameraList.Add(lairPathCamera);
         cameraList.Add(lairFloor1Camera);
-        cameraList.Add(lairFallCamera);
         cameraList.Add(lairFloor2Camera);
         cameraList.Add(finalRoomCamera);
     }
@@ -51,22 +47,10 @@ public class CamerasManager : MonoBehaviour
             subwayStation2Camera.enabled = true;
         }
 
-        if (collider.tag == "LairPathCollider")
-        {
-            DisableAllCameras();
-            lairPathCamera.enabled = true;
-        }
-
         if (collider.tag == "LairFloor1Collider")
         {
             DisableAllCameras();
             lairFloor1Camera.enabled = true;
-        }
-
-        if (collider.tag == "LairFallCollider")
-        {
-            DisableAllCameras();
-            lairFallCamera.enabled = true;
         }
 
         if (collider.tag == "LairFloor2Collider")

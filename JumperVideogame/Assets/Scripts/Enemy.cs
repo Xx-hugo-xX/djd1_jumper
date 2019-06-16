@@ -11,12 +11,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] Collider2D damageSensor;
 
 
+
+
     float moveDirection = -1.0f;
     int   currentHP;
-    bool isMoving;
 
 
     Rigidbody2D rigidBody;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -75,12 +77,9 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-
-
-
-
-
     }
+
+
 
     public void TakeDamage(int nDamage)
     {

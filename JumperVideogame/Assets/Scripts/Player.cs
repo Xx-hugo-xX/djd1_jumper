@@ -35,8 +35,8 @@ public class Player : MonoBehaviour
     Animator        animator;
     SpriteRenderer  sprite;
     float           hAxis;
-    public int             currentHP;
-    public int             teleportsAvailable = 2;
+    public int      currentHP;
+    public int      teleportsAvailable = 2;
     float           invulnerabilityTimer;
 
 
@@ -166,18 +166,6 @@ public class Player : MonoBehaviour
                 teleportsAvailable += 1;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
@@ -201,11 +189,23 @@ public class Player : MonoBehaviour
 
         if (collider.tag == "Victory") levelManager.RestartScene();
 
-        if (collider.tag == "Checkpoint_1") respawnPoint = checkpoint_1;
+        if (collider.tag == "Elevator_1")
+        {
+            respawnPoint = checkpoint_1;
+            transform.position = checkpoint_1.position;
+        }
 
-        if (collider.tag == "Checkpoint_2") respawnPoint = checkpoint_2;
+        if (collider.tag == "Elevator_2")
+        {
+            respawnPoint = checkpoint_2;
+            transform.position = checkpoint_2.position;
+        }
 
-        if (collider.tag == "Checkpoint_3") respawnPoint = checkpoint_3;
+        if (collider.tag == "Elevator_3")
+        {
+            respawnPoint = checkpoint_3;
+            transform.position = checkpoint_3.position;
+        }
     }
 
     public void TakeDamage(int nDamage)
