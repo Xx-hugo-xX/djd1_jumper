@@ -9,20 +9,20 @@ public class Player : MonoBehaviour
     // Variable Declaration
 
     [SerializeField] public float   moveSpeed = 50.0f;
-    [SerializeField] public float   jumpSpeed = 250.0f;
     [SerializeField] int            maxHP = 3;
     [SerializeField] float          invulnerabilityDuration = 1.0f;
     [SerializeField] Collider2D     groundCollider;
-<<<<<<< HEAD
+
     [SerializeField] Transform      groundSensor;
     [SerializeField] Transform      wallSensor;
     [SerializeField] Transform      damageSensor;
-=======
-    [SerializeField] Collider2D     airCollider;
-    [SerializeField] Transform      damageSensor1;
-    [SerializeField] Transform      damageSensor2;
->>>>>>> pedroRepo/master
+
     [SerializeField] LevelManager   levelManager;
+
+
+    [SerializeField] Collider2D enemyDamageSensor;
+    [SerializeField] Collider2D playerCollider;
+    [SerializeField] Collider2D attackTrigger;
 
 
     Rigidbody2D     rigidBody;
@@ -31,6 +31,11 @@ public class Player : MonoBehaviour
     float           hAxis;
     int             currentHP;
     float           invulnerabilityTimer;
+
+    bool isAttacking;
+    float attackTimer;
+    float attackCooldown = 0.5f;
+   
 
 
     bool isOnGround
@@ -73,6 +78,8 @@ public class Player : MonoBehaviour
         sprite    = GetComponent<SpriteRenderer>();
 
         currentHP = maxHP;
+
+        attackTrigger.enabled = false;
     }
 
     void FixedUpdate()
@@ -83,47 +90,25 @@ public class Player : MonoBehaviour
 
         bool grounded = isOnGround;
 
-        // moves player on the vertical axis when the user presses Jump button and is on ground
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isOnGround) currentVelocity.y = jumpSpeed;
-        }
-
 
         rigidBody.velocity = currentVelocity;
 
         // Defines which collider is utilized 
         groundCollider.enabled = grounded;
 
-        Collider2D collider1 = Physics2D.OverlapCircle(damageSensor.position,
+        Collider2D collider = Physics2D.OverlapCircle(damageSensor.position,
             2.0f, LayerMask.GetMask("Enemy"));
 
 
-        if (collider1 != null)
+        if (collider != null)
         {
-            Enemy enemy = collider1.GetComponent<Enemy>();
+            Enemy enemy = collider.GetComponent<Enemy>();
 
             if (enemy)
             {
                 enemy.TakeDamage(1);
-                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
             }
         }
-<<<<<<< HEAD
-=======
-
-        else if (collider2 != null)
-        {
-            Enemy enemy = collider2.GetComponent<Enemy>();
-
-            if (enemy)
-            {
-                enemy.TakeDamage(1);
-
-                rigidBody.velocity = Vector3.up * jumpSpeed * 0.5f;
-            }
-        }
->>>>>>> pedroRepo/master
     }
 
 
@@ -145,6 +130,46 @@ public class Player : MonoBehaviour
                 sprite.enabled = true;
             }
         }
+
+
+        if(Input.GetKeyDown("f") && !isAttacking)
+        {
+            isAttacking = true;
+            attackTimer = attackCooldown;
+
+            attackTrigger.enabled = true;
+        }
+
+        if (isAttacking)
+        {
+            if (attackTimer > 0.0f)
+            {
+                attackTimer -= Time.deltaTime;
+            }
+            else
+            {
+                isAttacking = false;
+                attackTrigger.enabled = false;
+            }
+        }
+
+        /*
+        if (enemyDamageSensor.IsTouching(playerCollider))
+        {
+
+        }
+        */
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Start of Animation Updates
@@ -191,22 +216,18 @@ public class Player : MonoBehaviour
     {
         if (collider.tag == "MedKit")
         {
-<<<<<<< HEAD
+
             Debug.Log("Touched Medkit");
-=======
->>>>>>> pedroRepo/master
+
             if (currentHP != 3)
             {
                 currentHP = 3;
                 Destroy(collider.gameObject);
             }
-<<<<<<< HEAD
         }
         if (collider.tag == "SubwayEntry")
         {
             levelManager.UndergroundScene();
-=======
->>>>>>> pedroRepo/master
         }
         if (collider.tag == "SubwayEntry") levelManager.UndergroundScene();
 
@@ -227,10 +248,7 @@ public class Player : MonoBehaviour
         isInvulnerable = true;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> pedroRepo/master
     private void OnDrawGizmosSelected()
     {
         if (damageSensor)

@@ -5,6 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    Scene currentScene;
+
+    private void Update()
+    {
+        currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "TitleScreen")
+        {
+            if (Input.GetKeyDown("space"))
+            {
+                MainMenu();
+            }
+        }
+
+    }
+
+
+
+
     public void TitleScreen()
     {
         SceneManager.LoadScene("TitleScreen");
